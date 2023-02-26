@@ -1,3 +1,4 @@
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -9,6 +10,12 @@
 #include <vector>
 
 namespace railway {
+
+const double POLE_RADIUS = 6356752.314245;
+const double EQUATOR_RADIUS = 6378137.0;
+const double E2 =
+    (POLE_RADIUS * POLE_RADIUS - EQUATOR_RADIUS * EQUATOR_RADIUS) /
+    (POLE_RADIUS * POLE_RADIUS);
 
 struct Station {
     int station_code;
@@ -49,6 +56,11 @@ struct Path {
     int from;
     int to;
     int next;
+};
+
+struct Coordinate {
+    double lat;
+    double lon;
 };
 
 class StationRepository {
@@ -177,6 +189,21 @@ class Prefectures {
         {41, "佐賀県"}, {42, "長崎県"},   {43, "熊本県"}, {44, "大分県"},
         {45, "宮崎県"}, {46, "鹿児島県"}, {47, "沖縄県"}};
 };
+
+double calcDistance(Coordinate a, Coordinate b) {
+    a.lat *= M_PI / 180.0;
+    a.lon *= M_PI / 180.0;
+    b.lat *= M_PI / 180.0;
+    b.lon *= M_PI / 180.0;
+    double Dx = a.lat - b.lat;
+    double Dy = a.lon - b.lon;
+    double P = (a.lat + b.lat) / 2.0;
+    double W = sqrt(1 - E2 * pow(sin(P), 2));
+    double M = POLE_RADIUS * (1 - E2) / pow(W, 3);
+    double N = POLE_RADIUS / W;
+    double distance_meter = sqrt(pow(Dx * M, 2) + pow(Dy * N * cos(P), 2));
+    return distance_meter / 1000.0;
+}
 
 class PathRepository {
   public:

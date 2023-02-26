@@ -1,21 +1,24 @@
-# TSP
+# railway-tsp
 
-Solves TSP for Railway Tour.
+TSP solver for Japanese railway tour
 
-# Data Source
+## Data Source
 
-## 駅データ.jp
+### 駅データ.jp
 
 * https://ekidata.jp/
-# Dependency
+
+## Dependency
+
 * cmake
 * OpenMP (optional)
-# Usage
+
+## Usage
 
 ```
 $ cmake --build ./build --config Debug --target generate_tour
 ```
 
-# License
+## License
 
 This software is intended for academic and non-commercial use only.

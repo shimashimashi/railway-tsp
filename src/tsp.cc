@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
         graph.addEdge(node1, node2);
     }
 
-    const int INF = 1000000000;
     const int N = graph.getNodeSize();
 
     set<int> station_group_codes;
@@ -111,7 +110,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    vector<vector<int>> cost(N, vector<int>(N, INF));
+    vector<vector<double>> cost(N, vector<double>(N, DBL_MAX));
     set<Edge> edges = graph.getEdges();
     for (const Edge &edge : edges) {
         auto [from, to] = edge;
@@ -123,22 +122,19 @@ int main(int argc, char *argv[]) {
         Station station2 =
             stationRepository.getStationByCode(node2.station_code).value();
 
-        if (station1.station_group_code == station2.station_group_code) {
-            cost[from][to] = 0;
-            cost[to][from] = 0;
-        } else {
-            cost[from][to] = 1;
-            cost[to][from] = 1;
-        }
+        double distance = calcDistance({station1.lat, station1.lon},
+                                       {station2.lat, station2.lon});
+        cost[from][to] = distance;
+        cost[to][from] = distance;
     }
 
-    vector<vector<int>> distance(N, vector<int>(N, INF));
+    vector<vector<double>> distance(N, vector<double>(N, DBL_MAX));
     vector<vector<int>> next(N, vector<int>(N, -1));
 #pragma omp parallel for
     for (int i = 0; i < N; ++i) {
         distance[i][i] = 0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>,
-                       greater<pair<int, int>>>
+        priority_queue<pair<double, int>, vector<pair<double, int>>,
+                       greater<pair<double, int>>>
             pq;
         pq.push({0, i});
         while (!pq.empty()) {
@@ -202,8 +198,11 @@ int main(int argc, char *argv[]) {
         // 高速化のため複数行まとめる
         string s = "";
         for (int j = 0; j < N; ++j) {
-            int d = distance[i][j] == INF ? -1 : distance[i][j];
-            s += to_string(d) + " ";
+            if (distance[i][j] == DBL_MAX) {
+                s += "-1 ";
+            } else {
+                s += to_string(lround(distance[i][j])) + " ";
+            }
         }
         lines[i] = s;
     }
