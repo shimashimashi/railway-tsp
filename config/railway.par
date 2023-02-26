@@ -1,0 +1,4 @@
+PROBLEM_FILE = railway.tsp
+TOUR_FILE = railway.lkh
+RUNS = 1
+TIME_LIMIT = 60

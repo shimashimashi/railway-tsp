@@ -1,0 +1,13 @@
+NAME : railway.6.tour
+COMMENT : Length = 6
+COMMENT : Found by LKH [Keld Helsgaun] Sun Feb 26 03:29:36 2023
+TYPE : TOUR
+DIMENSION : 5
+TOUR_SECTION
+1
+4
+2
+3
+5
+-1
+EOF
