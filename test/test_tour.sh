@@ -1,10 +1,6 @@
 #!/bin/bash
 program=$1
-station_file=$2
-node_file=$3
-tour_file=$4
-path_file=$5
-expected_file=$6
+source_dir=$2
 tmpfile=$(mktemp)
-$program $station_file $node_file $tour_file $path_file > $tmpfile
-diff $tmpfile $expected_file
+$program $source_dir/test/data/station.csv $source_dir/test/expected/node.csv $source_dir/test/expected/railway.lkh $source_dir/test/expected/shortest_path.csv > $tmpfile
+diff $tmpfile $source_dir/test/expected/tour.json

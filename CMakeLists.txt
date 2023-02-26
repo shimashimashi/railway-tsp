@@ -76,27 +76,27 @@ target_link_libraries(
 
 add_test(
     NAME tsp_test
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_tsp.sh $<TARGET_FILE:tsp> ${CMAKE_CURRENT_SOURCE_DIR}/test/data/station.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/data/join.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/group.csv ./test ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/shortest_path.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/railway.tsp ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/node.csv
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_tsp.sh $<TARGET_FILE:tsp> ${CMAKE_CURRENT_SOURCE_DIR} ./test
 )
 
 add_test(
     NAME group_test
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_group.sh $<TARGET_FILE:group> ${CMAKE_CURRENT_SOURCE_DIR}/test/data/station.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/data/join.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/group.csv
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_group.sh $<TARGET_FILE:group> ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_test(
     NAME tour_test
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_tour.sh $<TARGET_FILE:tour> ${CMAKE_CURRENT_SOURCE_DIR}/test/data/station.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/node.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/railway.lkh ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/shortest_path.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/tour.json
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_tour.sh $<TARGET_FILE:tour> ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_test(
     NAME station_test
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_station.sh $<TARGET_FILE:station> ${CMAKE_CURRENT_SOURCE_DIR}/test/data/station.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/station.json
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_station.sh $<TARGET_FILE:station> ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_test(
     NAME line_test
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_line.sh $<TARGET_FILE:line> ${CMAKE_CURRENT_SOURCE_DIR}/test/data/line.csv ${CMAKE_CURRENT_SOURCE_DIR}/test/expected/line.json
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test/test_line.sh $<TARGET_FILE:line> ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_custom_command(
@@ -121,7 +121,7 @@ add_custom_target(
 
 add_custom_command(
     OUTPUT railway.lkh
-    DEPENDS LKH railway.tsp
+    DEPENDS LKH railway.tsp ${CMAKE_CURRENT_SOURCE_DIR}/config/railway.par
     COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/config/railway.par ./
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/LKH ./railway.par
 )

@@ -1,8 +1,6 @@
 #!/bin/bash
 program=$1
-station_file=$2
-join_file=$3
-expected_file=$4
+source_dir=$2
 tmpfile=$(mktemp)
-$program $station_file $join_file > $tmpfile
-diff $tmpfile $expected_file
+$program $source_dir/test/data/station.csv $source_dir/test/data/join.csv > $tmpfile
+diff $tmpfile $source_dir/test/expected/group.csv

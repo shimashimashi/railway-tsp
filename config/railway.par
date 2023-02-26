@@ -1,4 +1,4 @@
 PROBLEM_FILE = railway.tsp
 TOUR_FILE = railway.lkh
 RUNS = 1
-TIME_LIMIT = 120
+TIME_LIMIT = 300

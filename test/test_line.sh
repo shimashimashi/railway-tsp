@@ -1,7 +1,6 @@
 #!/bin/bash
 program=$1
-line_file=$2
-expected_file=$3
+source_dir=$2
 tmpfile=$(mktemp)
-$program $line_file > $tmpfile
-diff $tmpfile $expected_file
+$program $source_dir/test/data/line.csv > $tmpfile
+diff $tmpfile $source_dir/test/expected/line.json
